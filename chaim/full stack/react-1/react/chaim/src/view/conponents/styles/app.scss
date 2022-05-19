@@ -1,0 +1,21 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  color: rgb(125, 18, 18);
+  display: grid;
+  grid-template-columns: 200px 200px 200px 200px;
+  grid-template-rows: 200px 200px 200px;
+  justify-content: center;
+  gap: 11vw;
+  padding-top: 5vh;
+ }
+
+a{
+  background-color:whitesmoke;
+  font-size: 7vh;
+}
