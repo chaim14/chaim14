@@ -1,13 +1,13 @@
-interface BoxProps{
+interface BooksProps{
   text: string
   price: number
  img:string
- update:Function
+
    
  
  
 }
-const box = (props:BoxProps) => {
+const box = (props:BooksProps) => {
   const {text,price, img}=props
   
   return (
@@ -15,7 +15,6 @@ const box = (props:BoxProps) => {
    <img src={img} alt="" />
    <h2>{text}</h2>
    <h4>{price}</h4>
-   <p></p>
     </div>
   )
 }
