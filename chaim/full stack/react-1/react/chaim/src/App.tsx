@@ -1,48 +1,112 @@
-import React, { useState } from 'react';
-import Cars from './view/conponents/Cars';
+import React, { useState, useEffect } from "react";
+import _ from "lodash";
+import "./view/conponents/styles/App.scss";
+import game from "./view/conponents/Game";
 
-interface CarsProps {
-  text: string
-  price: number
-  img: string
-  id: string
+const colors = ["red", "blue", "green", "yellow"];
+const sequenceLength = 4;
+
+function randomSequence(len:any) {
+  const seq = new Array(len)
+    .fill(0)
+    .map((x) => Math.floor(Math.random() * colors.length) + 1);
+  const zeros = new Array(len).fill(0);
+
+  return _.flatMap(_.zip(seq, zeros));
 }
 
-function App() {
-  const cars: Array<CarsProps> = [
-    { id: 'ert', text: 'pejo', price: 40, img: 'https://encrypted-tbn0.gstatic.com/imagesq=tbn:ANd9GcTRL8EuJFfdtMo7bhUVozixYhBM-BVm5ikoPA&usqp=CAU' },
-    { id: 'ert', text: 'dcia', price: 50, img: 'https://auto-yashir.com/wp-content/uploads/2018/04/new-dacia-sandero-gets-4-star-euroncap-rating-video-60297_1.jpg' },
-    { id: 'ert', text: 'tesla', price: 150, img: 'https://ynet-images1.yit.co.il/picserver5/crop_images/2021/08/01/r1gIbJg41K/r1gIbJg41K_0_0_3000_2000_0_x-large.jpg' },
-    { id: 'ert', text: 'suzuki', price: 250, img: "https://www.levinson-car.co.il/wp-content/uploads/2019/11/Suzuki-Vitara-Turbo-2019-1-11-800x533.jpg" },
-    { id: 'ert', text: 'kaya', price: 300, img: 'https://www.icar.co.il/_media/articles/4907.jpg' },
-    { id: 'ert', text: 'mazda', price: 300, img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw0zFtXRwCJdA28zwXmy1PYuX7dUcPf4Ywrw&usqp=CAU' },
-    { id: 'ert', text: 'chadash', price: 100, img: 'https://www.tgspot.co.il/wp-content/uploads/2016/01/chevrolet-corvette-7.jpg' },
-    { id: 'ert', text: 'mertzedes', price: 70, img: 'https://www.renta-car.co.il/media/1343/redcar-copy.png' },
-    { id: 'ert', text: 'new', price: 30, img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRySBxGQ3Z8MEqJ7zhaWHeN8tywNf66cWoJag&usqp=CAU' },
-    { id: 'ert', text: 'volvo', price: 50, img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNsMcezdzCkjEF1gUGH1rYwcIiMNsekJwyaQ&usqp=CAU' },
-  ]
+function Game (){
+  const [secretSequence, setSecretSequence] = useState(
+    randomSequence(sequenceLength)
+  );
+  const [index, setIndex] = useState(0);
+  const [currentSequence, setCurrentSequence] = useState([]);
+  const [flash, setFlash] = useState(0);
 
-  const [query, setQuery] = useState('')
+  useEffect(() => {
+    if (flash === 0) return;
 
+    const timer = setTimeout(() => {
+      setFlash(0);
+    }, 200);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [flash]);
+
+  useEffect(() => {
+    if (
+      _.isEqual(currentSequence.slice(-1 * sequenceLength * 2), secretSequence)
+    ) {
+      alert("Bravo!");
+
+  
+      setCurrentSequence([]);
+      setSecretSequence(randomSequence(sequenceLength));
+      setIndex(0);
+    }
+  }, [currentSequence, secretSequence]);
+
+  useEffect(() => {
+    if (index >= secretSequence.length) return;
+
+    const timer = setTimeout(
+      () => {
+        setIndex((i) => i + 1);
+      },
+      index % 2 === 0 ? 600 : 200
+    );
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [index, secretSequence]);
+
+  function cx(squareIndex:any) {
+    return `
+    colored-box
+    ${colors[squareIndex - 1]}
+    ${secretSequence[index] === squareIndex ? "active" : ""}
+    ${flash === squareIndex ? "active" : ""}
+    `;
+  }
+
+  function clicked(n:any) {
+    setCurrentSequence(function (s): any {
+        return [...s, n, 0];
+      });
+    setFlash(n);
+  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-
-          <label>search book</label>
-          <input id="search-query" type='text'></input>
-          <button type='submit'>search</button>
-
-        <a>atar sfarim</a>
-        {cars.map((cars, i) => { return <Cars key={i} text={cars.text} price={cars.price} img={cars.img} /> })}
-
-      </header>
+    <div>
+      <div className="game">
+        <div className={cx(1)} onClick={() => clicked(1)}>
+          1
+        </div>
+        <div className={cx(2)} onClick={() => clicked(2)}>
+          2
+        </div>
+        <div className={cx(3)} onClick={() => clicked(3)}>
+          3
+        </div>
+        <div className={cx(4)} onClick={() => clicked(4)}>
+          4
+        </div>
+      </div>
+      <div>
+        <button onClick={() => setIndex(0)}>Play Again</button>
+      </div>
     </div>
   );
 }
-export default App;
 
-
-
-
+export default function App() {
+  return (
+    <div className="App">
+      <Game />
+    </div>
+  );
+}
 

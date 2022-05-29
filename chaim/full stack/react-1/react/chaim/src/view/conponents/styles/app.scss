@@ -1,21 +1,29 @@
-.App {
+colored-box {
+  width: 100px;
+  height: 100px;
+  vertical-align: top;
+  border: 1px solid;
+  display: inline-block;
+  line-height: 100px;
   text-align: center;
+  font-size: 2.5rem;
 }
 
-.App-header {
-  display: flex;
-  flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  color: rgb(125, 18, 18);
-  display: grid;
-  grid-template-columns: 200px 200px 200px 200px;
-  grid-template-rows: 200px 200px 200px;
-  justify-content: center;
-  gap: 11vw;
-  padding-top: 5vh;
- }
+.red {
+  background: red;
+  
+}
+.yellow {
+  background: yellow;
+}
+.blue {
+  background: blue;
+}
+.green {
+  background: green;
+}
 
-a{
-  background-color:whitesmoke;
-  font-size: 7vh;
+.colored-box:not(.active) {
+  background: transparent;
+
 }
