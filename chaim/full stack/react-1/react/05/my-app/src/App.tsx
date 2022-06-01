@@ -30,14 +30,7 @@ function App()
 // }
 // }
   return (
-    <div className="App">
-      <header className="App-header">
-      
-      <a>atar sfarim</a>
-        {list.map((list, i)=>{ return <List key={i} text={list.text} price={list.price} img={list.img} />})}
-      </header>
-    </div>
-  );
-}
-
+   
+<div></div>
+  )}
 export default App;

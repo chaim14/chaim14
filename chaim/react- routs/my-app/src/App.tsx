@@ -1,19 +1,21 @@
-import React from 'react';
+
 
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './Home';
-import About from './About';
+import Home from './pages/Home';
+import Vanilla from './pages/Vanilla';
+import Shokolate from './pages/Shokolate';
+import Layout from './pages/Layout';
 function App() {
-  return ( 
+ 
   
+  return ( 
      <BrowserRouter>
-      {/* the navigation system / the conditiona rendering of routes */}
       <Routes>
         <Route path="/home" element={<Home />}></Route>
-        <Route path='/about' element ={<About/>}></Route>
+        <Route path='/vanilla' element ={<Vanilla/>}></Route>
+        <Route path='/shokolate' element ={<Shokolate/>}></Route>
        
-        
 
       </Routes>
     </BrowserRouter>
