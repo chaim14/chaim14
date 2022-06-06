@@ -1,22 +1,27 @@
-
 import express from 'express';
 import mongoose from 'mongoose';
-const app = express();
-const port = process.env.PORT || 4001;
+const app = express()
+const port = process.env.PORT || 4000;
+require('dotenv').config()
 
-app.use(express.static('public/build'))
-app.use(express.json());
+const mongodb_uri = process.env.MONGODB_URI
 
-mongoose.connect('mongodb+srv://Michael:6RmR0bWXc0hh7ybk@cluster0.ctwuo.mongodb.net/bymySelf?retryWrites=true&w=majority')
-    .then(res => {
-        console.log("connected to Mongoose");
-    })
-    .catch((err) => {
-        console.log("Failed to connect to Mongoose:")
-        console.log(err.message);
-    });
+mongoose.connect(
+    mongodb_uri
+  ).then(res=>{
+    console.log("Connected to DB");
+  }).catch(err=>{
+    console.error(err.message)
+  });
+
+  app.use(express.json());
+  app.use(express.static('client/build'));
+  
+
+app.get('/api/text', (req, res) => {
+  res.send({text:'Hello World!'})
+})
 
 app.listen(port, () => {
-    return console.log(`Express is listening at http://localhost:${port}`);
-});
-
+  console.log(`Example app listening on port ${port}`)
+})
